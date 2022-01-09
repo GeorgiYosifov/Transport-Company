@@ -1,8 +1,10 @@
+import Button from './button';
 import RemovableRow from './removable-row';
 
 const ListInput = ({ data, onRemove, onAdd, buttonMessage, dataName }) => {
   return (
-    <div>
+    <>
+      <Button onClick={onAdd}>{buttonMessage}</Button>
       {data.map(({ id, [dataName]: text }) => (
         <RemovableRow
           key={id}
@@ -13,8 +15,7 @@ const ListInput = ({ data, onRemove, onAdd, buttonMessage, dataName }) => {
           }}
         />
       ))}
-      <button onClick={onAdd}>{buttonMessage}</button>
-    </div>
+    </>
   );
 };
 

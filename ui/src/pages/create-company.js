@@ -6,6 +6,7 @@ import FormCol from '../components/form-col';
 import Select from '../components/select';
 import RemovableRow from '../components/removable-row';
 import ListInput from '../components/list-input';
+import Button from '../components/button';
 
 const VEHICLE_OPTIONS = ['Bus', 'TIR', 'Lorry'];
 
@@ -18,13 +19,13 @@ const CreateCompany = () => {
     { id: 2, name: 'Goshe' },
   ]);
 
-  const handleCreateCompany = () => {
-    console.log(companyName, vehicles);
+  const handleCreateCompany = (e) => {
+    e.preventDefault();
+    console.log(companyName, vehicles, employees);
   };
 
-  const removeVehicle = (id) => {
-    setVehicles([]);
-  };
+  const removeVehicle = (id) =>
+    setVehicles((vehicles) => vehicles.filter((veh) => veh.id !== id));
 
   const handleAddVehicle = (e) => {
     e.preventDefault();
@@ -41,9 +42,8 @@ const CreateCompany = () => {
     });
   };
 
-  const removeEmployee = (id) => {
-    return employees.filter((emp) => emp.id !== id);
-  };
+  const removeEmployee = (id) =>
+    setEmployees((employees) => employees.filter((emp) => emp.id !== id));
 
   return (
     <form className="w-full max-w-lg">
@@ -57,65 +57,9 @@ const CreateCompany = () => {
           />
         </FormCol>
       </FormRow>
-      <FormRow className="flex flex-wrap -mx-3 mb-2">
-        <FormCol className="md:w-1/3">
-          <label
-            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            htmlFor="grid-city"
-          >
-            City
-          </label>
-          <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            id="grid-city"
-            type="text"
-            placeholder="Albuquerque"
-          />
-        </FormCol>
-        <FormCol className="md:w-1/3">
-          <label
-            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            htmlFor="grid-state"
-          >
-            State
-          </label>
-          <div className="relative">
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-              <svg
-                className="fill-current h-4 w-4"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-              >
-                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-              </svg>
-            </div>
-          </div>
-        </FormCol>
-        <FormCol className="md:w-1/3">
-          <label
-            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            htmlFor="grid-zip"
-          >
-            Zip
-          </label>
-          <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            id="grid-zip"
-            type="text"
-            placeholder="90210"
-          />
-        </FormCol>
-      </FormRow>
       <FormRow>
         <FormCol>
-          {vehicles.map(({ id, type }) => (
-            <RemovableRow
-              key={id}
-              text={type}
-              onClick={() => removeVehicle(id)}
-            />
-          ))}
-          <StyledLabel htmlFor="grid-first-name">Vehicles</StyledLabel>
+          <StyledLabel htmlFor="grid-first-name">Vehicle Type</StyledLabel>
           <Select
             onChange={setVehicleType}
             options={VEHICLE_OPTIONS.map((vehicle) => ({
@@ -123,20 +67,30 @@ const CreateCompany = () => {
               label: vehicle,
             }))}
           />
-          <button onClick={handleAddVehicle}>Add Vehicle</button>
+          <StyledLabel htmlFor="grid-first-name">Vehicles</StyledLabel>
+          <ListInput
+            data={vehicles}
+            dataName="type"
+            onAdd={handleAddVehicle}
+            onRemove={removeVehicle}
+            buttonMessage={`Add ${vehicleType}`}
+          />
         </FormCol>
       </FormRow>
       <FormRow>
-        <ListInput
-          data={employees}
-          dataName="name"
-          onAdd={handleAddEmployee}
-          onRemove={removeEmployee}
-          buttonMessage="Add employee"
-        />
+        <FormCol>
+          <StyledLabel>Employees</StyledLabel>
+          <ListInput
+            data={employees}
+            dataName="name"
+            onAdd={handleAddEmployee}
+            onRemove={removeEmployee}
+            buttonMessage="Add employee"
+          />
+        </FormCol>
       </FormRow>
       <FormRow>
-        <button onClick={() => {}}>Create</button>
+        <Button onClick={handleCreateCompany}>Create</Button>
       </FormRow>
     </form>
   );

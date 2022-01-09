@@ -1,4 +1,4 @@
-version: "3.9"  # optional since v1.27.0
+version: "3.9"
 services:
   backend:
     build: .
@@ -6,7 +6,9 @@ services:
       - 8080:8080
     links:
       - redis
+    container_name: backend
   redis:
+    container_name: redis
     image: redis:6.0
     ports:
       - 6379:6379

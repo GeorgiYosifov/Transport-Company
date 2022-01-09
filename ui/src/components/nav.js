@@ -1,11 +1,19 @@
-import { Link } from 'react-router-dom';
+import StyledLink from './styled-link';
 
 const Nav = () => {
   return (
-    <nav>
-      <Link to="/">Home</Link>
-      <Link to="companies">Companies</Link>
-      <Link to="companies/create">Create</Link>
+    <nav className="flex items-center justify-center flex-wrap p-6 shadow-lg">
+      <ul className="flex">
+        <li className="mr-6">
+          <StyledLink to="/">Home</StyledLink>
+        </li>
+        <li className="mr-6">
+          <StyledLink to="companies">Companies</StyledLink>
+        </li>
+        <li className="mr-6">
+          <StyledLink to="companies/create">Create Company</StyledLink>
+        </li>
+      </ul>
     </nav>
   );
 };

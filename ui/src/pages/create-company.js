@@ -4,7 +4,6 @@ import StyledLabel from '../components/label';
 import FormRow from '../components/form-row';
 import FormCol from '../components/form-col';
 import Select from '../components/select';
-import RemovableRow from '../components/removable-row';
 import ListInput from '../components/list-input';
 import Button from '../components/button';
 
@@ -14,10 +13,8 @@ const CreateCompany = () => {
   const [companyName, setCompanyName] = useState('');
   const [vehicles, setVehicles] = useState([]);
   const [vehicleType, setVehicleType] = useState('Bus');
-  const [employees, setEmployees] = useState([
-    { id: 1, name: 'Ivan' },
-    { id: 2, name: 'Goshe' },
-  ]);
+  const [employees, setEmployees] = useState([]);
+  const [employeeName, setEmployeeName] = useState('');
 
   const handleCreateCompany = (e) => {
     e.preventDefault();
@@ -38,7 +35,7 @@ const CreateCompany = () => {
     e.preventDefault();
 
     setEmployees((employees) => {
-      return [...employees, { id: employees.length + 1, name: 'Ivan' }];
+      return [...employees, { id: employees.length + 1, name: employeeName }];
     });
   };
 
@@ -46,7 +43,7 @@ const CreateCompany = () => {
     setEmployees((employees) => employees.filter((emp) => emp.id !== id));
 
   return (
-    <form className="w-full max-w-lg">
+    <form className="w-full max-w-6xl border-blue-500 border-opacity-100">
       <FormRow>
         <FormCol className="md:w-1/1">
           <StyledLabel htmlFor="grid-first-name">Company Name</StyledLabel>
@@ -58,7 +55,7 @@ const CreateCompany = () => {
         </FormCol>
       </FormRow>
       <FormRow>
-        <FormCol>
+        <FormCol className={'md:w-1/2'}>
           <StyledLabel htmlFor="grid-first-name">Vehicle Type</StyledLabel>
           <Select
             onChange={setVehicleType}
@@ -67,7 +64,9 @@ const CreateCompany = () => {
               label: vehicle,
             }))}
           />
-          <StyledLabel htmlFor="grid-first-name">Vehicles</StyledLabel>
+        </FormCol>
+        <FormCol className="md:w-1/2">
+          <StyledLabel htmlFor="grid-first-name">Vehicles:</StyledLabel>
           <ListInput
             data={vehicles}
             dataName="type"
@@ -78,8 +77,16 @@ const CreateCompany = () => {
         </FormCol>
       </FormRow>
       <FormRow>
-        <FormCol>
-          <StyledLabel>Employees</StyledLabel>
+        <FormCol className="md:w-1/2">
+          <StyledLabel htmlFor="grid-first-name">Name</StyledLabel>
+          <Input
+            id="grid-first-name"
+            type="text"
+            onChange={(name, value) => setEmployeeName(value)}
+          />
+        </FormCol>
+        <FormCol className="md:w-1/2">
+          <StyledLabel>Employees: </StyledLabel>
           <ListInput
             data={employees}
             dataName="name"

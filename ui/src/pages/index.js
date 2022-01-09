@@ -1,6 +1,4 @@
 import { Routes, Route } from 'react-router-dom';
-
-import App from '../App';
 import Companies from './companies';
 import CreateCompany from './create-company';
 import Company from './company';

@@ -1,27 +1,30 @@
 package company.transport.models;
 
-import ch.qos.logback.core.net.server.Client;
-
 import java.time.LocalTime;
+import org.springframework.data.redis.core.RedisHash;
 
+@RedisHash("Cargo")
 public class Cargo {
-    public String Id;
-    public String CompanyId;
-    public Client[] Clients;
-    public String Destination;
-    public LocalTime Departure;
-    public LocalTime Arrival;
-    public Double Weigth;
-    public Double Price;
+    private String id;
+    private String description;
+    private String vehicleId;
+    private String companyId;
+    private Client[] clients;
+    private String destination;
+    private LocalTime departure;
+    private LocalTime arrival;
+    private Double weigth;
+    private Double price;
 
-    public Cargo(String id, String companyId, Client[] clients, String destination, LocalTime departure, LocalTime arrival, Double weigth, Double price) {
-        this.Id = id;
-        this.CompanyId = companyId;
-        this.Clients = clients;
-        this.Destination = destination;
-        this.Departure = departure;
-        this.Arrival = arrival;
-        this.Weigth = weigth;
-        this.Price = price;
+    public Cargo(String id, String description, String vehicleId, String companyId, Client[] clients, String destination, LocalTime departure, LocalTime arrival, Double weigth) {
+        this.id = id;
+        this.description = description;
+        this.vehicleId = vehicleId;
+        this.companyId = companyId;
+        this.clients = clients;
+        this.destination = destination;
+        this.departure = departure;
+        this.arrival = arrival;
+        this.weigth = weigth;
     }
 }

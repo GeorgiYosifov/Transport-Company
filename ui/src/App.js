@@ -1,7 +1,14 @@
+import { BrowserRouter } from 'react-router-dom';
+import Nav from './components/nav';
+import Pages from './pages';
+
 const App = () => {
   return (
-    <h1>Hello</h1>
-  )
-}
+    <BrowserRouter>
+      <Nav />
+      <Pages />
+    </BrowserRouter>
+  );
+};
 
 export default App;

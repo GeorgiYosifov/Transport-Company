@@ -26,7 +26,7 @@ const CreateCompany = () => {
 
   const handleCreateCompany = async (e) => {
     e.preventDefault();
-    await createCompany({
+    const id = await createCompany({
       name: companyName,
       vehicles: vehicles.map((vehicle) => ({
         type: VEHICLE_IDS[vehicle.type],
@@ -34,7 +34,7 @@ const CreateCompany = () => {
       employees,
     });
 
-    navigate('/companies');
+    navigate(`/companies/${id}`);
   };
 
   const removeVehicle = (id) =>

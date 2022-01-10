@@ -17,7 +17,7 @@ const createCompany = async (data) => {
     body: JSON.stringify(data),
   });
 
-  return await response.json();
+  return await response.text();
 };
 
 const deleteCompany = async (id) => {

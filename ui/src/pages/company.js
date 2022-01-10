@@ -1,24 +1,12 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-const fetchCompanyData = (id) => {
-  return Promise.resolve({
-    id,
-    name: 'Union Ivkoni',
-    clients: [{ id: 1, name: 'Ivan' }],
-    vehicles: [
-      {
-        id: 1,
-        type: 'Bus',
-      },
-    ],
-  });
-};
+import { getCompany } from '../requests/company-requests';
 
 const Company = () => {
   const { id } = useParams();
   useEffect(() => {
-    fetchCompanyData(id).then((data) => {
+    getCompany(id).then((data) => {
       console.log(data);
     });
   }, [id]);

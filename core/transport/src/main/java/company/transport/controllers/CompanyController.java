@@ -34,7 +34,7 @@ public class CompanyController {
         return companyRepository.findById(id).get();
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public HttpStatus create(@RequestBody Company company) {
         company.setId(UUID.randomUUID().toString());
         Company saved = companyRepository.save(company);
@@ -51,7 +51,7 @@ public class CompanyController {
     //     updateCompany.get()
     // }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping
     public HttpStatus delete(@RequestBody String id) {
         if (!companyRepository.existsById(id)) {
             return HttpStatus.BAD_REQUEST;

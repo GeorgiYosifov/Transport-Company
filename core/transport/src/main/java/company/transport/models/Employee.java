@@ -15,4 +15,20 @@ public class Employee {
         this.salary = salary;
         this.companyId = companyId;
     }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public Double getSalary() {
+        return this.salary;
+    }
+
+    public String getCompanyId() {
+        return this.companyId;
+    }
 }

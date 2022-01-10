@@ -26,17 +26,21 @@ public class Company {
         this.id = id;
     }
 
-    // public String getName() {
-    //     return this.name;
-    // }
+    public String getName() {
+        return this.name;
+    }
 
-    // public Vehicle[] getVehicles() {
-    //     return this.vehicles;
-    // }
+    public Cargo[] getCargos() {
+        return this.cargos;
+    }
 
-    // public Employee[] getEmployees() {
-    //     return this.employees;
-    // }
+    public Vehicle[] getVehicles() {
+        return this.vehicles;
+    }
+
+    public Employee[] getEmployees() {
+        return this.employees;
+    }
 
     // @Override
     // public String toString() {

@@ -2,6 +2,7 @@ package company.transport.controllers;
 
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,14 +36,14 @@ public class CompanyController {
     }
 
     @PostMapping
-    public String create(@RequestBody Company company) {
+    public ResponseEntity<String> create(@RequestBody Company company) {
         String id = UUID.randomUUID().toString();
         company.setId(id);
         Company saved = companyRepository.save(company);
         if (saved != null) {
-            return id;
+            return new ResponseEntity<String>(id, HttpStatus.CREATED);
         } else {
-            return "";
+            return new ResponseEntity<String>("", HttpStatus.BAD_REQUEST);
         }
     }
 

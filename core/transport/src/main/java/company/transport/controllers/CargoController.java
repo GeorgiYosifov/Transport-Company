@@ -3,6 +3,7 @@ package company.transport.controllers;
 import java.util.UUID;
 import java.util.function.Predicate;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,27 +27,27 @@ public class CargoController {
     private CompanyRepository companyRepository;
 
     @GetMapping("/{id}")
-    public Cargo get(@PathVariable String companyId, @PathVariable String id) {
+    public ResponseEntity<Cargo> get(@PathVariable String companyId, @PathVariable String id) {
         Company company = companyRepository.findById(companyId).get();
         for (Cargo c : company.getCargos()) {
             if (c.getId().equals(id)) {
-                return c;
+                return new ResponseEntity<Cargo>(c, HttpStatus.FOUND);
             }
         }
-        return null;
+        return new ResponseEntity<Cargo>(new Cargo(), HttpStatus.NOT_FOUND);
     }
 
     @PostMapping
-    public String create(@PathVariable String companyId, @RequestBody Cargo cargo) {
+    public ResponseEntity<String> create(@PathVariable String companyId, @RequestBody Cargo cargo) {
         Company company = companyRepository.findById(companyId).get();
         cargo.setId(UUID.randomUUID().toString());
         company.getCargos().add(cargo);
         companyRepository.deleteById(companyId);
         Company saved = companyRepository.save(company);
         if (saved != null) {
-            return companyId;
+            return new ResponseEntity<String>(companyId, HttpStatus.CREATED);
         } else {
-            return "";
+            return new ResponseEntity<String>("", HttpStatus.BAD_REQUEST);
         }
     }
 

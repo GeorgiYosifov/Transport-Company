@@ -41,6 +41,11 @@ public class CargoController {
     public ResponseEntity<String> create(@PathVariable String companyId, @RequestBody Cargo cargo) {
         Company company = companyRepository.findById(companyId).get();
         cargo.setId(UUID.randomUUID().toString());
+        if (cargo.getClients().length != 0 && cargo.getWeigth() == 0.0) {
+            cargo.setPrice(cargo.getClients().length * 5.00);
+        } else if (cargo.getClients().length == 0 && cargo.getWeigth() != 0.0) {
+            cargo.setPrice(cargo.getWeigth() * 0.5);
+        }
         company.getCargos().add(cargo);
         companyRepository.deleteById(companyId);
         Company saved = companyRepository.save(company);

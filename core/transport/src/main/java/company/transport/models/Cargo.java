@@ -7,6 +7,7 @@ import org.springframework.data.redis.core.RedisHash;
 public class Cargo {
     private String id;
     private String description;
+    private String employeeId;
     private String vehicleId;
     private String companyId;
     private Client[] clients;
@@ -18,9 +19,10 @@ public class Cargo {
 
     public Cargo() {}
 
-    public Cargo(String id, String description, String vehicleId, String companyId, Client[] clients, String destination, LocalTime departure, LocalTime arrival, Double weigth) {
+    public Cargo(String id, String description, String employeeId, String vehicleId, String companyId, Client[] clients, String destination, LocalTime departure, LocalTime arrival, Double weigth) {
         this.id = id;
         this.description = description;
+        this.employeeId = employeeId;
         this.vehicleId = vehicleId;
         this.companyId = companyId;
         this.clients = clients;
@@ -40,6 +42,10 @@ public class Cargo {
 
     public String getDescription() {
         return this.description;
+    }
+
+    public String getEmployeeId() {
+        return this.employeeId;
     }
 
     public String getVehicleId() {
@@ -72,5 +78,9 @@ public class Cargo {
 
     public Double getPrice() {
         return this.price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 }

@@ -17,7 +17,7 @@ const Employees = ({ employees, handleFire }) => {
             <td className="border px-4 py-2">{name}</td>
             <td className="border px-4 py-2">{salary}</td>
             <td className="border px-4 py-2">
-              <Button className="bg-red-900" onClick={() => handleFire}>
+              <Button className="bg-red-900" onClick={() => handleFire(id)}>
                 Fire
               </Button>
             </td>

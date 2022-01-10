@@ -33,8 +33,11 @@ const Company = () => {
   const handleEmployeeDelete = async (id) => {
     const updatedCompany = {
       ...company,
-      employees: company.vehicles.filter(({ id: oldId }) => oldId !== id),
+      employees: company.employees.filter(({ id: oldId }) => oldId !== id),
     };
+
+    await updateCompany(updatedCompany);
+    setCompany(updatedCompany);
   };
 
   return (
@@ -61,7 +64,10 @@ const Company = () => {
           </div>
           <div>
             <h3>Employees: </h3>
-            <Employees employees={company.employees} />
+            <Employees
+              employees={company.employees}
+              handleFire={handleEmployeeDelete}
+            />
           </div>
           <div>
             <h3>Cargos: </h3>

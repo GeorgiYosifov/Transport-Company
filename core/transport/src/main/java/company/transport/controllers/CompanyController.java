@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
 import company.transport.models.Company;
+import company.transport.models.Employee;
+import company.transport.models.Vehicle;
 import company.transport.repositories.CompanyRepository;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -39,6 +41,12 @@ public class CompanyController {
     public ResponseEntity<String> create(@RequestBody Company company) {
         String id = UUID.randomUUID().toString();
         company.setId(id);
+        for (Vehicle v : company.getVehicles()) {
+            v.setId(UUID.randomUUID().toString());
+        }
+        for (Employee e : company.getEmployees()) {
+            e.setId(UUID.randomUUID().toString());
+        }
         Company saved = companyRepository.save(company);
         if (saved != null) {
             return new ResponseEntity<String>(id, HttpStatus.CREATED);

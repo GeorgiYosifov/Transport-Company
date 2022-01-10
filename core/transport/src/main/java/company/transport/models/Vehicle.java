@@ -16,6 +16,10 @@ public class Vehicle {
         return this.id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public VehicleType getType() {
         return this.type;
     }

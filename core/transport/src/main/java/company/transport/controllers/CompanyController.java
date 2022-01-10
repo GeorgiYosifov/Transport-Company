@@ -18,23 +18,23 @@ import company.transport.repositories.CompanyRepository;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/companies")
 public class CompanyController {
 
     @Autowired
     private CompanyRepository companyRepository;
 
-    @GetMapping("/company/all")
+    @GetMapping
     public Iterable<Company> getAll() {
         return companyRepository.findAll();
     }
 
-    @GetMapping("/company/{id}")
+    @GetMapping("/{id}")
     public Company get(@PathVariable String id) {
         return companyRepository.findById(id).get();
     }
 
-    @PostMapping("/company")
+    @PostMapping("/create")
     public HttpStatus create(@RequestBody Company company) {
         company.setId(UUID.randomUUID().toString());
         Company saved = companyRepository.save(company);
@@ -51,7 +51,7 @@ public class CompanyController {
     //     updateCompany.get()
     // }
 
-    @DeleteMapping("/company")
+    @DeleteMapping("/delete")
     public HttpStatus delete(@RequestBody String id) {
         if (!companyRepository.existsById(id)) {
             return HttpStatus.BAD_REQUEST;

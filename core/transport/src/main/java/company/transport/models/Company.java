@@ -8,8 +8,8 @@ public class Company {
     private String id;
     private String name;
     private ArrayList<Cargo> cargos;
-    private Vehicle[] vehicles;
-    private Employee[] employees;
+    private Vehicle[] vehicles = new Vehicle[] {};
+    private Employee[] employees = new Employee[] {};
 
     public Company(String id, String name, Vehicle[] vehicles, Employee[] employees) {
         this.id = id;

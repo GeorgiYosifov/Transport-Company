@@ -1,6 +1,6 @@
 const Select = ({ options, onChange }) => {
-  const handleChange = ({ target: { value } }) => {
-    onChange(value);
+  const handleChange = ({ target: { value, name } }) => {
+    onChange(value, name);
   };
 
   return (
@@ -10,7 +10,7 @@ const Select = ({ options, onChange }) => {
       onChange={handleChange}
     >
       {options.map(({ value, label }) => (
-        <option value={value} key={value}>
+        <option value={value} key={value} name={label}>
           {label}
         </option>
       ))}

@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Input from '../components/input';
 import StyledLabel from '../components/label';
@@ -6,19 +7,34 @@ import FormCol from '../components/form-col';
 import Select from '../components/select';
 import ListInput from '../components/list-input';
 import Button from '../components/button';
+import { createCompany } from '../requests/company-requests';
 
 const VEHICLE_OPTIONS = ['Bus', 'TIR', 'Lorry'];
+const VEHICLE_IDS = {
+  Bus: 1,
+  TIR: 2,
+  Lorry: 3,
+};
 
 const CreateCompany = () => {
+  const navigate = useNavigate();
   const [companyName, setCompanyName] = useState('');
   const [vehicles, setVehicles] = useState([]);
   const [vehicleType, setVehicleType] = useState('Bus');
   const [employees, setEmployees] = useState([]);
-  const [employeeName, setEmployeeName] = useState('');
+  const [employee, setEmployee] = useState({});
 
-  const handleCreateCompany = (e) => {
+  const handleCreateCompany = async (e) => {
     e.preventDefault();
-    console.log(companyName, vehicles, employees);
+    await createCompany({
+      name: companyName,
+      vehicles: vehicles.map((vehicle) => ({
+        type: VEHICLE_IDS[vehicle.type],
+      })),
+      employees,
+    });
+
+    navigate('/companies');
   };
 
   const removeVehicle = (id) =>
@@ -35,7 +51,7 @@ const CreateCompany = () => {
     e.preventDefault();
 
     setEmployees((employees) => {
-      return [...employees, { id: employees.length + 1, name: employeeName }];
+      return [...employees, { id: employees.length + 1, ...employee }];
     });
   };
 
@@ -45,10 +61,10 @@ const CreateCompany = () => {
   return (
     <form className="w-full max-w-6xl border-blue-500 border-opacity-100">
       <FormRow>
-        <FormCol className="md:w-1/1">
-          <StyledLabel htmlFor="grid-first-name">Company Name</StyledLabel>
+        <FormCol className="md:w-1/2">
+          <StyledLabel htmlFor="grid-company-name">Company Name</StyledLabel>
           <Input
-            id="grid-first-name"
+            id="grid-company-name"
             type="text"
             onChange={(name, value) => setCompanyName(value)}
           />
@@ -56,7 +72,7 @@ const CreateCompany = () => {
       </FormRow>
       <FormRow>
         <FormCol className={'md:w-1/2'}>
-          <StyledLabel htmlFor="grid-first-name">Vehicle Type</StyledLabel>
+          <StyledLabel>Vehicle Type</StyledLabel>
           <Select
             onChange={setVehicleType}
             options={VEHICLE_OPTIONS.map((vehicle) => ({
@@ -66,7 +82,7 @@ const CreateCompany = () => {
           />
         </FormCol>
         <FormCol className="md:w-1/2">
-          <StyledLabel htmlFor="grid-first-name">Vehicles:</StyledLabel>
+          <StyledLabel>Vehicles:</StyledLabel>
           <ListInput
             data={vehicles}
             dataName="type"
@@ -78,11 +94,13 @@ const CreateCompany = () => {
       </FormRow>
       <FormRow>
         <FormCol className="md:w-1/2">
-          <StyledLabel htmlFor="grid-first-name">Name</StyledLabel>
+          <StyledLabel htmlFor="grid-name">Name</StyledLabel>
           <Input
-            id="grid-first-name"
+            id="grid-name"
             type="text"
-            onChange={(name, value) => setEmployeeName(value)}
+            onChange={(name, value) =>
+              setEmployee((employee) => ({ ...employee, name: value }))
+            }
           />
         </FormCol>
         <FormCol className="md:w-1/2">
@@ -97,7 +115,19 @@ const CreateCompany = () => {
         </FormCol>
       </FormRow>
       <FormRow>
-        <Button onClick={handleCreateCompany}>Create</Button>
+        <FormCol className="md:w-1/2">
+          <StyledLabel htmlFor="grid-salary">Salary</StyledLabel>
+          <Input
+            id="grid-salary"
+            type="text"
+            onChange={(name, value) =>
+              setEmployee((employee) => ({ ...employee, salary: value }))
+            }
+          />
+        </FormCol>
+      </FormRow>
+      <FormRow>
+        <Button onClick={handleCreateCompany}>Create Company</Button>
       </FormRow>
     </form>
   );

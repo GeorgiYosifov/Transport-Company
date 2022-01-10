@@ -1,17 +1,32 @@
-const getCompanies = () => {
-  return Promise.resolve([
-    { id: 1, name: 'Union Ivkoni', createdOn: '2022-01-01' },
-    { id: 2, name: 'Econt', createdOn: '2022-01-01' },
-    { id: 3, name: 'Discordia', createdOn: '2022-01-01' },
-  ]);
+const BASE_URL = 'http://localhost:8080/api/companies';
+
+const getCompanies = async () => {
+  return await fetch(`${BASE_URL}`).then((response) => response.json());
 };
 
-const getCompany = (id) => {
-  return Promise.resolve({
-    id,
-    name: 'Union Ivkoni',
-    customers: [{ id: 1, name: 'Ivan' }],
+const getCompany = async (id) => {
+  return await fetch(`${BASE_URL}/${id}`).then((response) => response.json());
+};
+
+const createCompany = async (data) => {
+  const response = await fetch(`${BASE_URL}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+
+  return await response.json();
+};
+
+const deleteCompany = async (id) => {
+  return await fetch(`${BASE_URL}/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
 };
 
-export { getCompanies, getCompany };
+export { getCompanies, getCompany, createCompany, deleteCompany };

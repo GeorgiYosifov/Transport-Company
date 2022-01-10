@@ -6,8 +6,10 @@ import Input from '../components/input';
 import Button from '../components/button';
 import { useParams } from 'react-router-dom';
 import { createCargo } from '../requests/company-requests';
+import { useNavigate } from 'react-router-dom';
 
 const CreateCargo = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [cargo, setCargo] = useState({
     id: 1,
@@ -24,6 +26,7 @@ const CreateCargo = () => {
   const handleCreateCargo = async (e) => {
     e.preventDefault();
     await createCargo(id, cargo);
+    navigate(`/companies/${id}`);
   };
 
   return (

@@ -51,8 +51,8 @@ public class CompanyController {
     //     updateCompany.get()
     // }
 
-    @DeleteMapping
-    public HttpStatus delete(@RequestBody String id) {
+    @DeleteMapping("/{id}")
+    public HttpStatus delete(@PathVariable String id) {
         if (!companyRepository.existsById(id)) {
             return HttpStatus.BAD_REQUEST;
         } else {

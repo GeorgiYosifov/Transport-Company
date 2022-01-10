@@ -1,19 +1,20 @@
 package company.transport.models;
 
+import java.util.ArrayList;
 import org.springframework.data.redis.core.RedisHash;
 
 @RedisHash("Company")
 public class Company {
     private String id;
     private String name;
-    private Cargo[] cargos;
+    private ArrayList<Cargo> cargos;
     private Vehicle[] vehicles;
     private Employee[] employees;
 
     public Company(String id, String name, Vehicle[] vehicles, Employee[] employees) {
         this.id = id;
         this.name = name;
-        this.cargos = new Cargo[]{};
+        this.cargos = new ArrayList<Cargo>();
         this.vehicles = vehicles;
         this.employees = employees;
     }
@@ -30,7 +31,7 @@ public class Company {
         return this.name;
     }
 
-    public Cargo[] getCargos() {
+    public ArrayList<Cargo> getCargos() {
         return this.cargos;
     }
 

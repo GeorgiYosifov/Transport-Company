@@ -27,4 +27,48 @@ public class Cargo {
         this.arrival = arrival;
         this.weigth = weigth;
     }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public String getVehicleId() {
+        return this.vehicleId;
+    }
+
+    public String getCompanyId() {
+        return this.companyId;
+    }
+
+    public Client[] getClients() {
+        return this.clients;
+    }
+
+    public String getDestinaton() {
+        return this.destination;
+    }
+
+    public LocalTime getDeparture() {
+        return this.departure;
+    }
+
+    public LocalTime getArrival() {
+        return this.arrival;
+    }
+
+    public Double getWeigth() {
+        return this.weigth;
+    }
+
+    public Double getPrice() {
+        return this.price;
+    }
 }

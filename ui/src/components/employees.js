@@ -11,7 +11,7 @@ const Employees = ({ employees, handleFire }) => {
         </tr>
       </thead>
       <tbody>
-        {employees.map(({ id, name, salary }, idx) => (
+        {employees?.map(({ id, name, salary }, idx) => (
           <tr key={id} className={idx % 2 === 0 ? 'bg-gray-100' : ''}>
             <td className="border px-4 py-2">{id}</td>
             <td className="border px-4 py-2">{name}</td>

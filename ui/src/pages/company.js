@@ -6,6 +6,12 @@ import StyledLink from '../components/styled-link';
 import Cargos from '../components/cargos';
 import { getCompany, updateCompany } from '../requests/company-requests';
 import PageHeader from '../components/page-header';
+import StyledLabel from '../components/label';
+import Select from '../components/select';
+import FormCol from '../components/form-col';
+import Button from '../components/button';
+
+const VEHICLE_OPTIONS = ['Bus', 'TIR', 'Lorry'];
 
 const Company = () => {
   const { id } = useParams();
@@ -14,6 +20,8 @@ const Company = () => {
     employees: [],
     cargos: [],
   });
+
+  const [vehicleType, setVehicleType] = useState('Bus');
 
   useEffect(() => {
     getCompany(id).then((data) => {
@@ -26,6 +34,20 @@ const Company = () => {
       ...company,
       vehicles: company.vehicles.filter(({ id: oldId }) => oldId !== id),
     };
+    await updateCompany(updatedCompany);
+    setCompany(updatedCompany);
+  };
+
+  const handleAddVehicle = async () => {
+    company.vehicles = [];
+    const updatedCompany = {
+      ...company,
+      vehicles: [
+        ...company.vehicles,
+        { id: company.vehicles.length + 1, type: vehicleType },
+      ],
+    };
+    console.log(updatedCompany);
     await updateCompany(updatedCompany);
     setCompany(updatedCompany);
   };
@@ -54,7 +76,20 @@ const Company = () => {
             </li>
           </ul>
         </section>
-        <section className="grid grid-rows-1 grid-flow-col gap-1 shadow-lg p-4">
+        <div className="grid grid-rows-2 grid-flow-col gap-1 shadow-lg p-4">
+          <FormCol className={'md:w-1/2'}>
+            <StyledLabel>Vehicle Type</StyledLabel>
+            <Select
+              onChange={(value, name) => setVehicleType(value)}
+              options={VEHICLE_OPTIONS.map((vehicle) => ({
+                value: vehicle,
+                label: vehicle,
+              }))}
+            />
+            <Button onClick={handleAddVehicle}>Add</Button>
+          </FormCol>
+        </div>
+        <section className="grid grid-rows-2 grid-flow-col gap-1 shadow-lg p-4">
           <div>
             <h3>Vehicles Owned: </h3>
             <Vehicles

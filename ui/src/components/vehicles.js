@@ -11,7 +11,7 @@ const Vehicle = ({ vehicles, handleDelete }) => {
         </tr>
       </thead>
       <tbody>
-        {vehicles.map(({ id, type }, idx) => (
+        {vehicles?.map(({ id, type }, idx) => (
           <tr key={id} className={idx % 2 === 0 ? 'bg-gray-100' : ''}>
             <td className="border px-4 py-2">{id}</td>
             <td className="border px-4 py-2">{type}</td>

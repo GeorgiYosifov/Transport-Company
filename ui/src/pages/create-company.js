@@ -9,6 +9,7 @@ import ListInput from '../components/list-input';
 import PageHeader from '../components/page-header';
 import Button from '../components/button';
 import { createCompany } from '../requests/company-requests';
+import VehiclePicker from '../components/vehicle-picker';
 
 const VEHICLE_OPTIONS = ['Bus', 'TIR', 'Lorry'];
 const VEHICLE_IDS = {
@@ -74,26 +75,13 @@ const CreateCompany = () => {
           </FormCol>
         </FormRow>
         <FormRow>
-          <FormCol className={'md:w-1/2'}>
-            <StyledLabel>Vehicle Type</StyledLabel>
-            <Select
-              onChange={setVehicleType}
-              options={VEHICLE_OPTIONS.map((vehicle) => ({
-                value: vehicle,
-                label: vehicle,
-              }))}
-            />
-          </FormCol>
-          <FormCol className="md:w-1/2">
-            <StyledLabel>Vehicles:</StyledLabel>
-            <ListInput
-              data={vehicles}
-              dataName="type"
-              onAdd={handleAddVehicle}
-              onRemove={removeVehicle}
-              buttonMessage={`Add ${vehicleType}`}
-            />
-          </FormCol>
+          <VehiclePicker
+            setVehicleType={setVehicleType}
+            handleAddVehicle={handleAddVehicle}
+            removeVehicle={removeVehicle}
+            vehicles={vehicles}
+            vehicleType={vehicleType}
+          />
         </FormRow>
         <FormRow>
           <FormCol className="md:w-1/2">

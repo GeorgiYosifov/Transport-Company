@@ -6,8 +6,14 @@ import FormCol from '../components/form-col';
 import Select from '../components/select';
 import ListInput from '../components/list-input';
 import Button from '../components/button';
+import { createCompany } from '../requests/company-requests';
 
 const VEHICLE_OPTIONS = ['Bus', 'TIR', 'Lorry'];
+const VEHICLE_IDS = {
+  Bus: 1,
+  TIR: 2,
+  Lorry: 3,
+};
 
 const CreateCompany = () => {
   const [companyName, setCompanyName] = useState('');
@@ -19,6 +25,16 @@ const CreateCompany = () => {
   const handleCreateCompany = (e) => {
     e.preventDefault();
     console.log(companyName, vehicles, employees);
+    createCompany({
+      name: companyName,
+      vehicles: vehicles.map((vehicle) => {
+        console.log(vehicle);
+        return {
+          type: VEHICLE_IDS[vehicle.type],
+        };
+      }),
+      employees,
+    });
   };
 
   const removeVehicle = (id) =>
@@ -45,10 +61,10 @@ const CreateCompany = () => {
   return (
     <form className="w-full max-w-6xl border-blue-500 border-opacity-100">
       <FormRow>
-        <FormCol className="md:w-1/1">
-          <StyledLabel htmlFor="grid-first-name">Company Name</StyledLabel>
+        <FormCol className="md:w-1/2">
+          <StyledLabel htmlFor="grid-company-name">Company Name</StyledLabel>
           <Input
-            id="grid-first-name"
+            id="grid-company-name"
             type="text"
             onChange={(name, value) => setCompanyName(value)}
           />
@@ -56,7 +72,7 @@ const CreateCompany = () => {
       </FormRow>
       <FormRow>
         <FormCol className={'md:w-1/2'}>
-          <StyledLabel htmlFor="grid-first-name">Vehicle Type</StyledLabel>
+          <StyledLabel>Vehicle Type</StyledLabel>
           <Select
             onChange={setVehicleType}
             options={VEHICLE_OPTIONS.map((vehicle) => ({
@@ -66,7 +82,7 @@ const CreateCompany = () => {
           />
         </FormCol>
         <FormCol className="md:w-1/2">
-          <StyledLabel htmlFor="grid-first-name">Vehicles:</StyledLabel>
+          <StyledLabel>Vehicles:</StyledLabel>
           <ListInput
             data={vehicles}
             dataName="type"
@@ -78,9 +94,9 @@ const CreateCompany = () => {
       </FormRow>
       <FormRow>
         <FormCol className="md:w-1/2">
-          <StyledLabel htmlFor="grid-first-name">Name</StyledLabel>
+          <StyledLabel htmlFor="grid-name">Name</StyledLabel>
           <Input
-            id="grid-first-name"
+            id="grid-name"
             type="text"
             onChange={(name, value) => setEmployeeName(value)}
           />
@@ -93,6 +109,16 @@ const CreateCompany = () => {
             onAdd={handleAddEmployee}
             onRemove={removeEmployee}
             buttonMessage="Add employee"
+          />
+        </FormCol>
+      </FormRow>
+      <FormRow>
+        <FormCol className="md:w-1/2">
+          <StyledLabel htmlFor="grid-salary">Salary</StyledLabel>
+          <Input
+            id="grid-salary"
+            type="text"
+            onChange={(name, value) => setEmployeeName(value)}
           />
         </FormCol>
       </FormRow>

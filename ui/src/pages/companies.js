@@ -8,7 +8,7 @@ const Companies = () => {
     getCompanies().then((companies) => {
       setCompanies(companies);
     });
-  });
+  }, []);
 
   return (
     <table className="table-auto">

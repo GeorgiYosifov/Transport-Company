@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
-// import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
 import company.transport.models.Company;
@@ -46,11 +46,16 @@ public class CompanyController {
         }
     }
 
-    // @PatchMapping
-    // public Company update(@RequestBody Company company) {
-    //     Company updateCompany = companyRepository.findById(company.getId()).get();
-    //     updateCompany.get()
-    // }
+    @PatchMapping
+    public HttpStatus update(@RequestBody Company company) {
+        companyRepository.deleteById(company.getId());
+        Company saved = companyRepository.save(company);
+        if (saved != null) {
+            return HttpStatus.OK;
+        } else {
+            return HttpStatus.BAD_REQUEST;
+        }
+    }
 
     @DeleteMapping("/{id}")
     public HttpStatus delete(@PathVariable String id) {

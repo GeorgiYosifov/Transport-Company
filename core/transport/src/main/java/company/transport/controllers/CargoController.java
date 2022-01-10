@@ -1,6 +1,7 @@
 package company.transport.controllers;
 
 import java.util.UUID;
+import java.util.function.Predicate;
 import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
-// import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
 import company.transport.models.Cargo;
@@ -37,32 +37,30 @@ public class CargoController {
     }
 
     @PostMapping
-    public HttpStatus create(@PathVariable String companyId, @RequestBody Cargo cargo) {
+    public String create(@PathVariable String companyId, @RequestBody Cargo cargo) {
         Company company = companyRepository.findById(companyId).get();
         cargo.setId(UUID.randomUUID().toString());
         company.getCargos().add(cargo);
         companyRepository.deleteById(companyId);
         Company saved = companyRepository.save(company);
         if (saved != null) {
-            return HttpStatus.ACCEPTED;
+            return companyId;
         } else {
-            return HttpStatus.BAD_REQUEST;
+            return "";
         }
     }
 
-    // @PatchMapping
-    // public Company update(@RequestBody Company company) {
-    //     Company updateCompany = companyRepository.findById(company.getId()).get();
-    //     updateCompany.get()
-    // }
-
-    @DeleteMapping
-    public HttpStatus delete(@RequestBody String id) {
-        if (!companyRepository.existsById(id)) {
-            return HttpStatus.BAD_REQUEST;
-        } else {
-            companyRepository.deleteById(id);
+    @DeleteMapping("/{id}")
+    public HttpStatus delete(@PathVariable String companyId, @PathVariable String id) {
+        Company company = companyRepository.findById(companyId).get();
+        Predicate<Cargo> pr = c -> c.getId().equals(id);
+        company.getCargos().removeIf(pr);
+        companyRepository.deleteById(companyId);
+        Company saved = companyRepository.save(company);
+        if (saved != null) {
             return HttpStatus.OK;
+        } else {
+            return HttpStatus.BAD_REQUEST;
         }
     }
 }

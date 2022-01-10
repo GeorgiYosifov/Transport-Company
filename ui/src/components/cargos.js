@@ -1,6 +1,6 @@
 import Button from './button';
 
-const Cargos = ({ cargos }) => {
+const Cargos = ({ cargos, handleDelete }) => {
   return (
     <table className="table-auto">
       <thead>
@@ -18,7 +18,9 @@ const Cargos = ({ cargos }) => {
             <td className="border px-4 py-2">{name}</td>
             <td className="border px-4 py-2">{salary}</td>
             <td className="border px-4 py-2">
-              <Button className="bg-red-900">Fire</Button>
+              <Button className="bg-red-900" onClick={() => handleDelete(id)}>
+                Delete
+              </Button>
             </td>
           </tr>
         ))}

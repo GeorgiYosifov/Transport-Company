@@ -75,12 +75,22 @@ const Company = () => {
     setCompany(updatedCompany);
   };
 
+  const handleCargoDelete = async (id) => {
+    const updatedCompany = {
+      ...company,
+      cargos: company.cargos.filter(({ id: oldId }) => oldId !== id),
+    };
+
+    await updateCompany(updatedCompany);
+    setCompany(updatedCompany);
+  };
+
   return (
     <div>
       <PageHeader title={company.name} />
       <main>
-        <section>
-          <h2>Links</h2>
+        <section className="shadow-lg p-4">
+          <h2 className="text-lg">Links</h2>
           <ul>
             <li>
               <StyledLink to={`/companies/${id}/create-cargo`}>
@@ -127,7 +137,7 @@ const Company = () => {
             </FormCol>
           </FormRow>
         </div>
-        <section className="grid grid-rows-2 grid-flow-col gap-1 shadow-lg p-4">
+        <section className="grid grid-rows-1 grid-flow-col gap-1 shadow-lg p-4">
           <div>
             <h3>Vehicles Owned: </h3>
             <Vehicles
@@ -144,7 +154,7 @@ const Company = () => {
           </div>
           <div>
             <h3>Cargos: </h3>
-            <Cargos cargos={company.cargos} />
+            <Cargos cargos={company.cargos} handleDelete={handleCargoDelete} />
           </div>
         </section>
       </main>

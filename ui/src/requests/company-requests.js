@@ -41,10 +41,23 @@ const updateCompany = async (data) => {
   return await response.text();
 };
 
+const createCargo = async (companyId, data) => {
+  const response = await fetch(`${BASE_URL}/${companyId}/cargos`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+
+  return await response.text();
+};
+
 export {
   getCompanies,
   getCompany,
   createCompany,
   deleteCompany,
   updateCompany,
+  createCargo,
 };

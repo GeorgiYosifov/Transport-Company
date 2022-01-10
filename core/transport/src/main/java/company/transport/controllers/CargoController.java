@@ -13,36 +13,40 @@ import org.springframework.web.bind.annotation.PostMapping;
 // import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
+import company.transport.models.Cargo;
 import company.transport.models.Company;
 import company.transport.repositories.CompanyRepository;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/api/companies")
-public class CompanyController {
+@RequestMapping("/api/companies/{companyId}/cargos")
+public class CargoController {
 
     @Autowired
     private CompanyRepository companyRepository;
 
-    @GetMapping
-    public Iterable<Company> getAll() {
-        return companyRepository.findAll();
-    }
-
     @GetMapping("/{id}")
-    public Company get(@PathVariable String id) {
-        return companyRepository.findById(id).get();
+    public Cargo get(@PathVariable String companyId, @PathVariable String id) {
+        Company company = companyRepository.findById(companyId).get();
+        for (Cargo c : company.getCargos()) {
+            if (c.getId().equals(id)) {
+                return c;
+            }
+        }
+        return null;
     }
 
     @PostMapping
-    public String create(@RequestBody Company company) {
-        String id = UUID.randomUUID().toString();
-        company.setId(id);
+    public HttpStatus create(@PathVariable String companyId, @RequestBody Cargo cargo) {
+        Company company = companyRepository.findById(companyId).get();
+        cargo.setId(UUID.randomUUID().toString());
+        company.getCargos().add(cargo);
+        companyRepository.deleteById(companyId);
         Company saved = companyRepository.save(company);
         if (saved != null) {
-            return id;
+            return HttpStatus.ACCEPTED;
         } else {
-            return "";
+            return HttpStatus.BAD_REQUEST;
         }
     }
 

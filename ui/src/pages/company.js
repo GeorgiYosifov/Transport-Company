@@ -10,6 +10,7 @@ import StyledLabel from '../components/label';
 import Select from '../components/select';
 import FormCol from '../components/form-col';
 import Button from '../components/button';
+import FormRow from '../components/form-row';
 
 const VEHICLE_OPTIONS = ['Bus', 'TIR', 'Lorry'];
 
@@ -39,12 +40,11 @@ const Company = () => {
   };
 
   const handleAddVehicle = async () => {
-    company.vehicles = [];
     const updatedCompany = {
       ...company,
       vehicles: [
-        ...company.vehicles,
-        { id: company.vehicles.length + 1, type: vehicleType },
+        ...(company.vehicles || []),
+        { id: (company?.vehicles?.length || 0) + 1, type: vehicleType },
       ],
     };
     console.log(updatedCompany);
@@ -77,17 +77,19 @@ const Company = () => {
           </ul>
         </section>
         <div className="grid grid-rows-2 grid-flow-col gap-1 shadow-lg p-4">
-          <FormCol className={'md:w-1/2'}>
-            <StyledLabel>Vehicle Type</StyledLabel>
-            <Select
-              onChange={(value, name) => setVehicleType(value)}
-              options={VEHICLE_OPTIONS.map((vehicle) => ({
-                value: vehicle,
-                label: vehicle,
-              }))}
-            />
-            <Button onClick={handleAddVehicle}>Add</Button>
-          </FormCol>
+          <FormRow>
+            <FormCol className={'md:w-1/2'}>
+              <StyledLabel>Vehicle Type</StyledLabel>
+              <Select
+                onChange={(value, name) => setVehicleType(value)}
+                options={VEHICLE_OPTIONS.map((vehicle) => ({
+                  value: vehicle,
+                  label: vehicle,
+                }))}
+              />
+              <Button onClick={handleAddVehicle}>Add</Button>
+            </FormCol>
+          </FormRow>
         </div>
         <section className="grid grid-rows-2 grid-flow-col gap-1 shadow-lg p-4">
           <div>

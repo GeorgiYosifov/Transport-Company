@@ -31,7 +31,7 @@ const deleteCompany = async (id) => {
 
 const updateCompany = async (data) => {
   const response = await fetch(`${BASE_URL}`, {
-    method: 'PATCH',
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },

@@ -45,10 +45,6 @@ public class Company {
 
     // @Override
     // public String toString() {
-    //     return "UserSession{" +
-    //             "id='" + id + '\'' +
-    //             ", username='" + username + '\'' +
-    //             ", browser='" + browser + '\'' +
-    //             '}';
+    //     return "";
     // }
 }

@@ -2,6 +2,7 @@ package company.transport.controllers;
 
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,10 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
-// import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
 import company.transport.models.Company;
+import company.transport.models.Employee;
+import company.transport.models.Vehicle;
 import company.transport.repositories.CompanyRepository;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -35,22 +38,33 @@ public class CompanyController {
     }
 
     @PostMapping
-    public String create(@RequestBody Company company) {
+    public ResponseEntity<String> create(@RequestBody Company company) {
         String id = UUID.randomUUID().toString();
         company.setId(id);
+        for (Vehicle v : company.getVehicles()) {
+            v.setId(UUID.randomUUID().toString());
+        }
+        for (Employee e : company.getEmployees()) {
+            e.setId(UUID.randomUUID().toString());
+        }
         Company saved = companyRepository.save(company);
         if (saved != null) {
-            return id;
+            return new ResponseEntity<String>(id, HttpStatus.CREATED);
         } else {
-            return "";
+            return new ResponseEntity<String>("", HttpStatus.BAD_REQUEST);
         }
     }
 
-    // @PatchMapping
-    // public Company update(@RequestBody Company company) {
-    //     Company updateCompany = companyRepository.findById(company.getId()).get();
-    //     updateCompany.get()
-    // }
+    @PatchMapping
+    public HttpStatus update(@RequestBody Company company) {
+        companyRepository.deleteById(company.getId());
+        Company saved = companyRepository.save(company);
+        if (saved != null) {
+            return HttpStatus.OK;
+        } else {
+            return HttpStatus.BAD_REQUEST;
+        }
+    }
 
     @DeleteMapping("/{id}")
     public HttpStatus delete(@PathVariable String id) {

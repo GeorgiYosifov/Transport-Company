@@ -3,6 +3,7 @@ import Companies from './companies';
 import CreateCompany from './create-company';
 import Company from './company';
 import Home from './home';
+import CreateCargo from './create-cargo';
 
 const Pages = () => {
   return (
@@ -12,6 +13,7 @@ const Pages = () => {
         <Route index element={<Companies />} />
         <Route path="create" element={<CreateCompany />} />
         <Route path=":id" element={<Company />} />
+        <Route path=":id/create-cargo" element={<CreateCargo />} />
       </Route>
     </Routes>
   );

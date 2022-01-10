@@ -29,4 +29,22 @@ const deleteCompany = async (id) => {
   });
 };
 
-export { getCompanies, getCompany, createCompany, deleteCompany };
+const updateCompany = async (data) => {
+  const response = await fetch(`${BASE_URL}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+
+  return await response.text();
+};
+
+export {
+  getCompanies,
+  getCompany,
+  createCompany,
+  deleteCompany,
+  updateCompany,
+};

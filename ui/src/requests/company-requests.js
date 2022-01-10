@@ -1,17 +1,7 @@
 const BASE_URL = 'http://localhost:8080/api/companies';
 
 const getCompanies = async () => {
-  const companies = await fetch(`${BASE_URL}`).then((response) =>
-    response.json(),
-  );
-
-  return companies.map((company) => {
-    return {
-      id: company.id,
-      name: 'Econt',
-      createdOn: '2021-01-01',
-    };
-  });
+  return await fetch(`${BASE_URL}`).then((response) => response.json());
 };
 
 const getCompany = async (id) => {
@@ -30,4 +20,13 @@ const createCompany = async (data) => {
   return await response.json();
 };
 
-export { getCompanies, getCompany, createCompany };
+const deleteCompany = async (id) => {
+  return await fetch(`${BASE_URL}/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};
+
+export { getCompanies, getCompany, createCompany, deleteCompany };

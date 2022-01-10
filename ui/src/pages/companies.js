@@ -36,8 +36,8 @@ const Companies = () => {
             <td className="border px-4 py-2">
               <StyledLink to={`/companies/${id}`}>{name}</StyledLink>
             </td>
-            <td className="border px-4 py-2">{vehicles.length}</td>
-            <td className="border px-4 py-2">{employees.length}</td>
+            <td className="border px-4 py-2">{vehicles?.length}</td>
+            <td className="border px-4 py-2">{employees?.length}</td>
             <td className="border px-4 py-2">
               <Button
                 className="bg-red-900"

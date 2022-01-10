@@ -6,8 +6,10 @@ import FormRow from '../components/form-row';
 import FormCol from '../components/form-col';
 import Select from '../components/select';
 import ListInput from '../components/list-input';
+import PageHeader from '../components/page-header';
 import Button from '../components/button';
 import { createCompany } from '../requests/company-requests';
+import VehiclePicker from '../components/vehicle-picker';
 
 const VEHICLE_OPTIONS = ['Bus', 'TIR', 'Lorry'];
 const VEHICLE_IDS = {
@@ -59,77 +61,67 @@ const CreateCompany = () => {
     setEmployees((employees) => employees.filter((emp) => emp.id !== id));
 
   return (
-    <form className="w-full max-w-6xl border-blue-500 border-opacity-100">
-      <FormRow>
-        <FormCol className="md:w-1/2">
-          <StyledLabel htmlFor="grid-company-name">Company Name</StyledLabel>
-          <Input
-            id="grid-company-name"
-            type="text"
-            onChange={(name, value) => setCompanyName(value)}
+    <div>
+      <PageHeader title="Create a transport compnay" />
+      <form className="w-full max-w-6xl border-blue-500 border-opacity-100">
+        <FormRow>
+          <FormCol className="md:w-1/2">
+            <StyledLabel htmlFor="grid-company-name">Company Name</StyledLabel>
+            <Input
+              id="grid-company-name"
+              type="text"
+              onChange={(name, value) => setCompanyName(value)}
+            />
+          </FormCol>
+        </FormRow>
+        <FormRow>
+          <VehiclePicker
+            setVehicleType={setVehicleType}
+            handleAddVehicle={handleAddVehicle}
+            removeVehicle={removeVehicle}
+            vehicles={vehicles}
+            vehicleType={vehicleType}
           />
-        </FormCol>
-      </FormRow>
-      <FormRow>
-        <FormCol className={'md:w-1/2'}>
-          <StyledLabel>Vehicle Type</StyledLabel>
-          <Select
-            onChange={setVehicleType}
-            options={VEHICLE_OPTIONS.map((vehicle) => ({
-              value: vehicle,
-              label: vehicle,
-            }))}
-          />
-        </FormCol>
-        <FormCol className="md:w-1/2">
-          <StyledLabel>Vehicles:</StyledLabel>
-          <ListInput
-            data={vehicles}
-            dataName="type"
-            onAdd={handleAddVehicle}
-            onRemove={removeVehicle}
-            buttonMessage={`Add ${vehicleType}`}
-          />
-        </FormCol>
-      </FormRow>
-      <FormRow>
-        <FormCol className="md:w-1/2">
-          <StyledLabel htmlFor="grid-name">Name</StyledLabel>
-          <Input
-            id="grid-name"
-            type="text"
-            onChange={(name, value) =>
-              setEmployee((employee) => ({ ...employee, name: value }))
-            }
-          />
-        </FormCol>
-        <FormCol className="md:w-1/2">
-          <StyledLabel>Employees: </StyledLabel>
-          <ListInput
-            data={employees}
-            dataName="name"
-            onAdd={handleAddEmployee}
-            onRemove={removeEmployee}
-            buttonMessage="Add employee"
-          />
-        </FormCol>
-      </FormRow>
-      <FormRow>
-        <FormCol className="md:w-1/2">
-          <StyledLabel htmlFor="grid-salary">Salary</StyledLabel>
-          <Input
-            id="grid-salary"
-            type="text"
-            onChange={(name, value) =>
-              setEmployee((employee) => ({ ...employee, salary: value }))
-            }
-          />
-        </FormCol>
-      </FormRow>
-      <FormRow>
-        <Button onClick={handleCreateCompany}>Create Company</Button>
-      </FormRow>
-    </form>
+        </FormRow>
+        <FormRow>
+          <FormCol className="md:w-1/2">
+            <StyledLabel htmlFor="grid-name">Name</StyledLabel>
+            <Input
+              id="grid-name"
+              type="text"
+              onChange={(name, value) =>
+                setEmployee((employee) => ({ ...employee, name: value }))
+              }
+            />
+          </FormCol>
+          <FormCol className="md:w-1/2">
+            <StyledLabel>Employees: </StyledLabel>
+            <ListInput
+              data={employees}
+              dataName="name"
+              onAdd={handleAddEmployee}
+              onRemove={removeEmployee}
+              buttonMessage="Add employee"
+            />
+          </FormCol>
+        </FormRow>
+        <FormRow>
+          <FormCol className="md:w-1/2">
+            <StyledLabel htmlFor="grid-salary">Salary</StyledLabel>
+            <Input
+              id="grid-salary"
+              type="text"
+              onChange={(name, value) =>
+                setEmployee((employee) => ({ ...employee, salary: value }))
+              }
+            />
+          </FormCol>
+        </FormRow>
+        <FormRow>
+          <Button onClick={handleCreateCompany}>Create Company</Button>
+        </FormRow>
+      </form>
+    </div>
   );
 };
 

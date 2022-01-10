@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Input from '../components/input';
 import StyledLabel from '../components/label';
@@ -16,25 +17,24 @@ const VEHICLE_IDS = {
 };
 
 const CreateCompany = () => {
+  const navigate = useNavigate();
   const [companyName, setCompanyName] = useState('');
   const [vehicles, setVehicles] = useState([]);
   const [vehicleType, setVehicleType] = useState('Bus');
   const [employees, setEmployees] = useState([]);
-  const [employeeName, setEmployeeName] = useState('');
+  const [employee, setEmployee] = useState({});
 
-  const handleCreateCompany = (e) => {
+  const handleCreateCompany = async (e) => {
     e.preventDefault();
-    console.log(companyName, vehicles, employees);
-    createCompany({
+    await createCompany({
       name: companyName,
-      vehicles: vehicles.map((vehicle) => {
-        console.log(vehicle);
-        return {
-          type: VEHICLE_IDS[vehicle.type],
-        };
-      }),
+      vehicles: vehicles.map((vehicle) => ({
+        type: VEHICLE_IDS[vehicle.type],
+      })),
       employees,
     });
+
+    navigate('/companies');
   };
 
   const removeVehicle = (id) =>
@@ -51,7 +51,7 @@ const CreateCompany = () => {
     e.preventDefault();
 
     setEmployees((employees) => {
-      return [...employees, { id: employees.length + 1, name: employeeName }];
+      return [...employees, { id: employees.length + 1, ...employee }];
     });
   };
 
@@ -98,7 +98,9 @@ const CreateCompany = () => {
           <Input
             id="grid-name"
             type="text"
-            onChange={(name, value) => setEmployeeName(value)}
+            onChange={(name, value) =>
+              setEmployee((employee) => ({ ...employee, name: value }))
+            }
           />
         </FormCol>
         <FormCol className="md:w-1/2">
@@ -118,12 +120,14 @@ const CreateCompany = () => {
           <Input
             id="grid-salary"
             type="text"
-            onChange={(name, value) => setEmployeeName(value)}
+            onChange={(name, value) =>
+              setEmployee((employee) => ({ ...employee, salary: value }))
+            }
           />
         </FormCol>
       </FormRow>
       <FormRow>
-        <Button onClick={handleCreateCompany}>Create</Button>
+        <Button onClick={handleCreateCompany}>Create Company</Button>
       </FormRow>
     </form>
   );

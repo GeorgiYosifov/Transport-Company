@@ -19,7 +19,7 @@ const getCompany = async (id) => {
 };
 
 const createCompany = async (data) => {
-  const response = await fetch(`${BASE_URL}/create`, {
+  const response = await fetch(`${BASE_URL}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

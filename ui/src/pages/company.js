@@ -1,21 +1,30 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import Employees from '../components/employees';
-import Vehicles from '../components/vehicles';
-import StyledLink from '../components/styled-link';
-import Cargos from '../components/cargos';
-import { getCompany, updateCompany } from '../requests/company-requests';
+import { v4 as uuidv4 } from 'uuid';
+import {
+  getCompany,
+  updateCompany,
+  deleteCompany,
+} from '../requests/company-requests';
 import PageHeader from '../components/page-header';
 import StyledLabel from '../components/label';
+import StyledLink from '../components/styled-link';
 import Select from '../components/select';
 import FormCol from '../components/form-col';
 import Button from '../components/button';
 import FormRow from '../components/form-row';
+
+import Employees from '../components/employees';
+import Vehicles from '../components/vehicles';
+import Cargos from '../components/cargos';
+
 import Input from '../components/input';
+import { useNavigate } from 'react-router-dom';
 
 const VEHICLE_OPTIONS = ['Bus', 'TIR', 'Lorry'];
 
 const Company = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [company, setCompany] = useState({
     vehicles: [],
@@ -46,7 +55,7 @@ const Company = () => {
       ...company,
       vehicles: [
         ...(company.vehicles || []),
-        { id: (company?.vehicles?.length || 0) + 1, type: vehicleType },
+        { id: uuidv4(), type: vehicleType },
       ],
     };
     await updateCompany(updatedCompany);
@@ -66,10 +75,7 @@ const Company = () => {
   const handleAddEmployee = async () => {
     const updatedCompany = {
       ...company,
-      employees: [
-        ...(company.employees || []),
-        { id: (company?.employees?.length || 0) + 1, ...employee },
-      ],
+      employees: [...(company.employees || []), { id: uuidv4(), ...employee }],
     };
     await updateCompany(updatedCompany);
     setCompany(updatedCompany);
@@ -85,17 +91,28 @@ const Company = () => {
     setCompany(updatedCompany);
   };
 
+  const handleDeleteCompany = async () => {
+    await deleteCompany(company.id);
+    navigate('/companies');
+  };
   return (
     <div>
       <PageHeader title={company.name} />
       <main>
         <section className="shadow-lg p-4">
-          <h2 className="text-lg">Links</h2>
-          <ul>
+          <ul className="flex items-center justify-center">
             <li>
               <StyledLink to={`/companies/${id}/create-cargo`}>
                 Load cargo
               </StyledLink>
+            </li>
+            <li>
+              <Button
+                onClick={handleDeleteCompany}
+                className="bg-inherit p-0 hover:bg-inherit text-red-900"
+              >
+                Delete the company
+              </Button>
             </li>
           </ul>
         </section>
@@ -110,7 +127,9 @@ const Company = () => {
                   label: vehicle,
                 }))}
               />
-              <Button onClick={handleAddVehicle}>Add</Button>
+              <Button className="mt-2" onClick={handleAddVehicle}>
+                Add
+              </Button>
             </FormCol>
           </FormRow>
           <FormRow>
@@ -123,7 +142,9 @@ const Company = () => {
                   setEmployee((employee) => ({ ...employee, name: value }))
                 }
               />
-              <Button onClick={() => handleAddEmployee()}>Add Employee</Button>
+              <Button className="mt-2" onClick={() => handleAddEmployee()}>
+                Add Employee
+              </Button>
             </FormCol>
             <FormCol className="md:w-1/3">
               <StyledLabel htmlFor="grid-salary">Salary</StyledLabel>
@@ -137,25 +158,16 @@ const Company = () => {
             </FormCol>
           </FormRow>
         </div>
-        <section className="grid grid-rows-1 grid-flow-col gap-1 shadow-lg p-4">
-          <div>
-            <h3>Vehicles Owned: </h3>
-            <Vehicles
-              vehicles={company.vehicles}
-              handleDelete={handleVehicleDelete}
-            />
-          </div>
-          <div>
-            <h3>Employees: </h3>
-            <Employees
-              employees={company.employees}
-              handleFire={handleEmployeeDelete}
-            />
-          </div>
-          <div>
-            <h3>Cargos: </h3>
-            <Cargos cargos={company.cargos} handleDelete={handleCargoDelete} />
-          </div>
+        <section className="flex flex-col shadow-lg p-4">
+          <Vehicles
+            vehicles={company.vehicles}
+            handleDelete={handleVehicleDelete}
+          />
+          <Employees
+            employees={company.employees}
+            handleFire={handleEmployeeDelete}
+          />
+          <Cargos cargos={company.cargos} handleDelete={handleCargoDelete} />
         </section>
       </main>
     </div>

@@ -1,6 +1,6 @@
 package company.transport.models;
 
-import java.time.LocalTime;
+import java.util.Date;
 import org.springframework.data.redis.core.RedisHash;
 
 @RedisHash("Cargo")
@@ -12,14 +12,14 @@ public class Cargo {
     private String companyId;
     private Client[] clients;
     private String destination;
-    private LocalTime departure;
-    private LocalTime arrival;
+    private Date departure;
+    private Date arrival;
     private Double weigth;
     private Double price;
 
     public Cargo() {}
 
-    public Cargo(String id, String description, String employeeId, String vehicleId, String companyId, Client[] clients, String destination, LocalTime departure, LocalTime arrival, Double weigth) {
+    public Cargo(String id, String description, String employeeId, String vehicleId, String companyId, Client[] clients, String destination, Date departure, Date arrival, Double weigth) {
         this.id = id;
         this.description = description;
         this.employeeId = employeeId;
@@ -64,11 +64,11 @@ public class Cargo {
         return this.destination;
     }
 
-    public LocalTime getDeparture() {
+    public Date getDeparture() {
         return this.departure;
     }
 
-    public LocalTime getArrival() {
+    public Date getArrival() {
         return this.arrival;
     }
 

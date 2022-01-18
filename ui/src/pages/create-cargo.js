@@ -56,7 +56,7 @@ const CreateCargo = () => {
           <StyledLabel htmlFor="grid-company-name">Departure Date</StyledLabel>
           <Input
             id="grid-company-name"
-            name="departureD"
+            name="departure"
             type="date"
             onChange={handleChange}
           />
@@ -65,7 +65,7 @@ const CreateCargo = () => {
           <StyledLabel htmlFor="grid-company-name">Arrival Date</StyledLabel>
           <Input
             id="grid-company-name"
-            name="arrivalD"
+            name="arrival"
             type="date"
             onChange={handleChange}
           />

@@ -95,6 +95,8 @@ const Company = () => {
     await deleteCompany(company.id);
     navigate('/companies');
   };
+
+  console.log(company);
   return (
     <div>
       <PageHeader title={company.name} />

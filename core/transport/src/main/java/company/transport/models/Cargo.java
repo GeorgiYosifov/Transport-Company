@@ -60,7 +60,7 @@ public class Cargo {
         return this.clients;
     }
 
-    public String getDestinaton() {
+    public String getDestination() {
         return this.destination;
     }
 

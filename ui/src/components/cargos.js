@@ -10,11 +10,12 @@ const Cargos = ({ cargos, handleDelete }) => {
             <th className="px-4 py-2">Id</th>
             <th className="px-4 py-2">Departure Date</th>
             <th className="px-4 py-2">Arrival Date</th>
-            <th className="px-4 py-2">Customer Id</th>
+            <th className="px-4 py-2">Description</th>
+            <th className="px-4 py-2">Price</th>
           </tr>
         </thead>
         <tbody>
-          {cargos.map(({ id, arrival, departure, description }, idx) => (
+          {cargos.map(({ id, arrival, departure, description, price }, idx) => (
             <tr key={id} className={idx % 2 === 0 ? 'bg-gray-100' : ''}>
               <td className="border px-4 py-2">{id}</td>
               <td className="border px-4 py-2">
@@ -24,6 +25,7 @@ const Cargos = ({ cargos, handleDelete }) => {
                 {new Date(arrival).toLocaleString()}
               </td>
               <td className="border px-4 py-2">{description}</td>
+              <td className="border px-4 py-2">{price}</td>
               <td className="border px-4 py-2">
                 <Button className="bg-red-900" onClick={() => handleDelete(id)}>
                   Delete

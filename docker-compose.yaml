@@ -1,14 +1,14 @@
 version: "3.9"
 services:
   frontend:
-    build: ../../ui/
+    build: ui
     ports: 
       - 3000:3000
     links:
       - backend
     container_name: frontend
   backend:
-    build: .
+    build: core/transport
     ports:
       - 8080:8080
     links:

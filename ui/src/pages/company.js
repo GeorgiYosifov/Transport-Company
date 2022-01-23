@@ -96,7 +96,6 @@ const Company = () => {
     navigate('/companies');
   };
 
-  console.log(company);
   return (
     <div>
       <PageHeader title={company.name} />
